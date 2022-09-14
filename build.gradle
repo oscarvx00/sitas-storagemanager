@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'jacoco'
+    id "org.sonarqube" version "3.4.0.2513"
 }
 
 group 'vx.sitas'
@@ -16,4 +18,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class' : 'Main'
+    }
 }
