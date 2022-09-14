@@ -1,9 +1,18 @@
 pipeline {
-    agent any
+    agent {label '!master'}
     stages {
-        stage('Pipeline test'){
+        stage ('Checkout') {
             steps {
-                sh "echo test jenkins"
+                git url: 'https://github.com/oscarvx00/sitas-storagemanager', branch: 'main'
+            }
+        }
+        stage ('Build'){
+            steps {
+                dir('containers/build'){
+                    sh 'cp ../../ ./'
+                    buildContainer = docker.build("sitas-storagemanager-buildcontainer").inside('-v $WORKSPACE:sitas-storagemanager-build/build/libs')
+                    archiveArtifacts artifacts: '*.jar'
+                }
             }
         }
     }
