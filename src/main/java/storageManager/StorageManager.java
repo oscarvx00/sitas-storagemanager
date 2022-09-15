@@ -1,7 +1,7 @@
 package storageManager;
 
 import dtos.DownloadCompleted;
-import rabbit.RabbitConnector;
+import queue.RabbitConnector;
 
 public class StorageManager implements RabbitConnector.RabbitConnectorCallback {
 
