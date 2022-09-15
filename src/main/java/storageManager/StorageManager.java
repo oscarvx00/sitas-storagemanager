@@ -18,4 +18,9 @@ public class StorageManager implements RabbitConnector.RabbitConnectorCallback {
     public void downloadCompletedCallback(DownloadCompleted downloadCompleted) {
 
     }
+
+    public int dummy(){
+        int i = 0;
+        return i;
+    }
 }

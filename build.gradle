@@ -25,3 +25,51 @@ jar {
         attributes 'Main-Class' : 'Main'
     }
 }
+
+
+sourceSets {
+    integrationTest {
+        java.srcDir "$projectDir/src/integration/java"
+        resources.srcDir "$projectDir/src/integration/resources"
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+task integrationTest(type: Test) {
+    description = 'Runs integrations tests.'
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    group = "verification"
+}
+
+integrationTest {
+    useJUnitPlatform()
+}
+
+// Configure the report to look for executionData generated during the test and integrationTest task
+jacocoTestReport {
+    executionData(file("${project.buildDir}/jacoco/test.exec"),
+            file("${project.buildDir}/jacoco/integrationTest.exec"))
+    reports {
+        // for sonarqube
+        xml.enabled true
+        xml.destination(file("${project.buildDir}/reports/jacoco/all-tests/jacocoAllTestReport.xml"))
+        // for devs
+        html.enabled true
+        html.destination file("${project.buildDir}/reports/jacoco/all-tests/html")
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "sitas-storagemanager"
+        property 'sonar.coverage.jacoco.xmlReportPaths', "${project.buildDir}/reports/jacoco/all-tests/jacocoAllTestReport.xml"
+    }
+}
