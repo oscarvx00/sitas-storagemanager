@@ -1,23 +1,28 @@
-package dtos;
+package database.POJOs;
 
-public class StorageNode {
+import dtos.StorageNode;
+import dtos.StorageNodeType;
+import org.bson.types.ObjectId;
 
+public class StorageNodePOJO {
+
+    private ObjectId id;
     private String name;
     private boolean stable;
     private String bucket;
-    private StorageNodeType type;
+    private String type;
     private String endpoint;
     private String credUser;
     private String credPass;
 
-    public StorageNode(String name, boolean stable, String bucket, StorageNodeType type, String endpoint, String credUser, String credPass) {
-        this.name = name;
-        this.stable = stable;
-        this.bucket = bucket;
-        this.type = type;
-        this.endpoint = endpoint;
-        this.credUser = credUser;
-        this.credPass = credPass;
+    public StorageNodePOJO() {}
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -44,11 +49,11 @@ public class StorageNode {
         this.bucket = bucket;
     }
 
-    public StorageNodeType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(StorageNodeType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -74,5 +79,17 @@ public class StorageNode {
 
     public void setCredPass(String credPass) {
         this.credPass = credPass;
+    }
+
+    public StorageNode toStorageNode(){
+        return new StorageNode(
+                name,
+                stable,
+                bucket,
+                StorageNodeType.valueOf(type),
+                endpoint,
+                credUser,
+                credPass
+        );
     }
 }
