@@ -1,5 +1,7 @@
 package queue;
 
 public interface QueueConnector {
-    void consumeQueue(String queueName);
+
+    void connect() throws Exception;
+    void consumeDownloadCompleteQueue(String queueName, String exchangeName) throws Exception;
 }
