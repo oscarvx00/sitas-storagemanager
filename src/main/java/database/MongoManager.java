@@ -2,16 +2,19 @@ package database;
 
 import static com.mongodb.client.model.Filters.eq;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
 import database.POJOs.SongDownloadPOJO;
+import database.POJOs.StorageNodePOJO;
 import dtos.SongDownload;
+import dtos.StorageNode;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 import static com.mongodb.MongoClientSettings.getDefaultCodecRegistry;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
@@ -41,5 +44,16 @@ public class MongoManager implements DatabaseManager {
     @Override
     public void updateSongDownload(SongDownload songDownload) {
 
+    }
+
+    @Override
+    public List<StorageNode> getAllStorageNodes() {
+        MongoCollection<StorageNodePOJO> collection = database.getCollection("StorageNode", StorageNodePOJO.class);
+        MongoCursor<StorageNodePOJO> cursor = collection.find().iterator();
+        List<StorageNode> storageNodes = new ArrayList<>();
+        while(cursor.hasNext()){
+            storageNodes.add(cursor.next().toStorageNode());
+        }
+        return storageNodes;
     }
 }
