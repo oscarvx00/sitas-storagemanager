@@ -82,4 +82,13 @@ public class SongDownloadPOJO {
                 storageNodeName
         );
     }
+
+    public void updateFromSongDownload(SongDownload songDownload){
+        this.songName = songDownload.getSongName();
+        this.downloadId = songDownload.getDownloadId();
+        this.userId = songDownload.getUserId();
+        this.status = songDownload.getStatus();
+        this.storageNodeName = songDownload.getStorageNodeName();
+        this.stored = songDownload.isStored();
+    }
 }

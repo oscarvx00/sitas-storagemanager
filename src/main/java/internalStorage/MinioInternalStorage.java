@@ -2,6 +2,8 @@ package internalStorage;
 
 import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
+import io.minio.StatObjectArgs;
+import io.minio.StatObjectResponse;
 
 import java.io.InputStream;
 
@@ -24,12 +26,25 @@ public class MinioInternalStorage implements InternalStorageManager{
             InputStream inputStream = client.getObject(
                     GetObjectArgs.builder()
                             .bucket(bucketName)
-                            .object(fileId)
+                            .object(fileId+".mp3")
                             .build()
             );
             return inputStream;
         } catch (Exception ex){
             System.err.println("Error getting file from internal storage " + ex.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public Long getFileSize(String fileId){
+        try {
+            StatObjectResponse stat = client.statObject(
+                    StatObjectArgs.builder().bucket(bucketName).object(fileId+".mp3").build()
+            );
+            return stat.size();
+        } catch (Exception ex) {
+            System.err.println("Error getting object stat " + fileId);
             return null;
         }
     }

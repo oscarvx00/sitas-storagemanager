@@ -43,7 +43,11 @@ public class MongoManager implements DatabaseManager {
 
     @Override
     public void updateSongDownload(SongDownload songDownload) {
-
+        MongoCollection<SongDownloadPOJO> collection = database.getCollection("SongDownload", SongDownloadPOJO.class);
+        SongDownloadPOJO doc = collection.find(eq("downloadId", songDownload.getDownloadId())).first();
+        doc.updateFromSongDownload(songDownload);
+        collection.deleteOne(eq("_id", doc.getId()));
+        collection.insertOne(doc);
     }
 
     @Override
