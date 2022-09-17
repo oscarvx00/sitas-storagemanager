@@ -74,8 +74,11 @@ public class StorageManager implements RabbitConnector.RabbitConnectorCallback {
         for(StorageNode storageNode : storageNodesData){
             try{
                 switch (storageNode.getType()){
-                    case MINIO -> nodeStorages.add(new NodeMinio(storageNode));
-                    default -> System.err.println("Storage node type " + storageNode.getType().toString() + " not found");
+                    case MINIO:
+                        nodeStorages.add(new NodeMinio(storageNode));
+                        break;
+                    default:
+                        System.err.println("Storage node type " + storageNode.getType().toString() + " not found");
                 }
             } catch (Exception ex){
                 System.err.println("Error creating nodeStorage " + storageNode.getName());
