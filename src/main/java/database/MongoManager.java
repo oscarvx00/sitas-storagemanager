@@ -45,6 +45,7 @@ public class MongoManager implements DatabaseManager {
     public void updateSongDownload(SongDownload songDownload) {
         MongoCollection<SongDownloadPOJO> collection = database.getCollection("SongDownload", SongDownloadPOJO.class);
         SongDownloadPOJO doc = collection.find(eq("downloadId", songDownload.getDownloadId())).first();
+        if(doc == null) return;
         doc.updateFromSongDownload(songDownload);
         collection.deleteOne(eq("_id", doc.getId()));
         collection.insertOne(doc);
@@ -56,7 +57,10 @@ public class MongoManager implements DatabaseManager {
         MongoCursor<StorageNodePOJO> cursor = collection.find().iterator();
         List<StorageNode> storageNodes = new ArrayList<>();
         while(cursor.hasNext()){
-            storageNodes.add(cursor.next().toStorageNode());
+            StorageNode storageNode = cursor.next().toStorageNode();
+            if(storageNode != null){
+                storageNodes.add(storageNode);
+            }
         }
         return storageNodes;
     }

@@ -82,14 +82,19 @@ public class StorageNodePOJO {
     }
 
     public StorageNode toStorageNode(){
-        return new StorageNode(
-                name,
-                stable,
-                bucket,
-                StorageNodeType.valueOf(type),
-                endpoint,
-                credUser,
-                credPass
-        );
+        try{
+            return new StorageNode(
+                    name,
+                    stable,
+                    bucket,
+                    StorageNodeType.valueOf(type),
+                    endpoint,
+                    credUser,
+                    credPass
+            );
+        } catch (Exception ex){
+            System.err.println("Error getting storage node " + name);
+            return null;
+        }
     }
 }

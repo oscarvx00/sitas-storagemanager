@@ -7,10 +7,10 @@ import com.mongodb.client.MongoDatabase;
 import database.POJOs.SongDownloadPOJO;
 import database.POJOs.StorageNodePOJO;
 import dtos.SongDownload;
+import dtos.StorageNode;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,7 +23,7 @@ import static com.mongodb.MongoClientSettings.getDefaultCodecRegistry;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
-public class MongoManagerTest {
+public class MongoManagerIntegrationTest {
 
     static DatabaseManager databaseManager;
     static MongoDatabase configDatabase;
@@ -65,6 +65,14 @@ public class MongoManagerTest {
         pojo1.setStored(false);
         pojo1.setStatus("DOWNLOADING");
         songDownloadPOJOS.add(pojo1);
+
+        SongDownloadPOJO pojo2 = new SongDownloadPOJO();
+        pojo2.setUserId("u02");
+        pojo2.setDownloadId("d02");
+        pojo2.setSongName("s02");
+        pojo2.setStored(false);
+        pojo2.setStatus("DOWNLOADING");
+        songDownloadPOJOS.add(pojo2);
 
         collection.insertMany(songDownloadPOJOS);
     }
@@ -109,10 +117,58 @@ public class MongoManagerTest {
     }
 
     @Test
-    public void getSongDownloadNotFound(){
+    public void getSongDownloadNotFoundTest(){
         SongDownload songDownload = databaseManager.getSongDownload("invalid");
 
         Assertions.assertNull(songDownload);
     }
 
+    @Test
+    public void updateSongDownloadTest(){
+        SongDownload songDownload = new SongDownload(
+                "uU02",
+                "d02",
+                "sU02",
+                true,
+                "COMPLETED",
+                "sn02"
+        );
+
+        databaseManager.updateSongDownload(songDownload);
+
+        SongDownload updated = databaseManager.getSongDownload("d02");
+
+        Assertions.assertEquals(updated.getUserId(), "uU02");
+        Assertions.assertEquals(updated.getDownloadId(), "d02");
+        Assertions.assertEquals(updated.getSongName(), "sU02");
+        Assertions.assertTrue(updated.isStored());
+        Assertions.assertEquals(updated.getStatus(), "COMPLETED");
+        Assertions.assertEquals(updated.getStorageNodeName(), "sn02");
+    }
+
+    @Test
+    public void updateSongDownloadNotFoundTest(){
+        SongDownload songDownload = new SongDownload(
+                "uU02",
+                "invalid",
+                "sU02",
+                true,
+                "COMPLETED",
+                "sn02"
+        );
+
+        databaseManager.updateSongDownload(songDownload);
+        SongDownload updated = databaseManager.getSongDownload("invalid");
+
+        Assertions.assertNull(updated);
+    }
+
+    @Test
+    public void getAllStorageNodes(){
+        List<StorageNode> storageNodes = databaseManager.getAllStorageNodes();
+
+        Assertions.assertEquals(storageNodes.size(), 1);
+
+        Assertions.assertEquals(storageNodes.get(0).getName(), "sn01");
+    }
 }
