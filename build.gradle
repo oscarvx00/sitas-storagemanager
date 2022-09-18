@@ -20,6 +20,7 @@ dependencies {
     implementation group: 'io.minio', name: 'minio', version: '8.4.3'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
@@ -78,6 +79,6 @@ sonarqube {
     properties {
         property "sonar.projectKey", "sitas-storagemanager"
         property 'sonar.coverage.jacoco.xmlReportPaths', "${project.buildDir}/reports/jacoco/all-tests/jacocoAllTestReport.xml"
-        property 'sonar.exclusions', "src/main/java/dtos/**, src/main/java/database/POJOs/**"
+        property 'sonar.coverage.exclusions', "src/main/java/dtos/**, src/main/java/database/POJOs/**, src/main/storageManager/**, src/main/queue/**"
     }
 }

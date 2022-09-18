@@ -10,13 +10,14 @@ import internalStorage.MinioInternalStorage;
 import nodeStorage.NodeMinio;
 import nodeStorage.NodeStorage;
 import queue.QueueConnector;
+import queue.QueueConnectorCallback;
 import queue.RabbitConnector;
 
 
 import java.io.InputStream;
 import java.util.*;
 
-public class StorageManager implements RabbitConnector.RabbitConnectorCallback {
+public class StorageManager implements QueueConnectorCallback {
 
     private QueueConnector rabbitConnector;
     private DatabaseManager databaseManager;
@@ -44,7 +45,6 @@ public class StorageManager implements RabbitConnector.RabbitConnectorCallback {
         );
 
         rabbitConnector = new RabbitConnector(
-                this,
                 System.getenv("RABBITMQ_ENDPOINT"),
                 System.getenv("RABBITMQ_USER"), System.getenv("RABBITMQ_PASS"),
                 System.getenv("RABBITMQ_VHOST")
@@ -55,6 +55,7 @@ public class StorageManager implements RabbitConnector.RabbitConnectorCallback {
         try{
             rabbitConnector.connect();
             rabbitConnector.consumeDownloadCompleteQueue(
+                    this,
                     System.getenv("RABBITMQ_QUEUE_DOWNLOADCOMPLETED"),
                     System.getenv("RABBITMQ_QUEUE_DOWNLOADCOMPLETED")
             );
