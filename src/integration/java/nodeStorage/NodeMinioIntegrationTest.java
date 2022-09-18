@@ -74,4 +74,9 @@ public class NodeMinioIntegrationTest {
         Assertions.assertNotNull(stat);
     }
 
+    @Test
+    public void getNodeName(){
+        Assertions.assertEquals(minioStorage.getStorageNodeName(), "MINIO_NODE_TEST");
+    }
+
 }
