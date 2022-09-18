@@ -29,7 +29,13 @@ public class RabbitConnector  implements QueueConnector{
         factory.setVirtualHost(virtualHost);
         factory.setUsername(credUser);
         factory.setPassword(credPass);
-        Connection connection = factory.newConnection();
+        Connection connection;
+        try{
+            connection = factory.newConnection();
+        } catch (Exception ex){
+            System.err.println("Error creating rabbit connection");
+            throw new Exception(ex.getMessage());
+        }
 
         this.channel = connection.createChannel();
     }
