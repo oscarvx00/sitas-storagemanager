@@ -3,5 +3,5 @@ WORKDIR "sitas-storagemanager-build"
 COPY ./ ./
 ARG DATABASE_ENDPOINT
 ENV DATABASE_ENDPOINT=${DATABASE_ENDPOINT}
-ENTRYPOINT ["echo", "$DATABASE_ENDPOINT"]
-#ENTRYPOINT ["java", "-jar", "*.jar"]
+#ENTRYPOINT ["echo", "$DATABASE_ENDPOINT"]
+ENTRYPOINT ["java", "-jar", "*.jar"]
