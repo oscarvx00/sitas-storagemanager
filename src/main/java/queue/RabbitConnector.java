@@ -14,6 +14,7 @@ public class RabbitConnector  implements QueueConnector{
     private String credPass;
     private String virtualHost;
 
+    private Connection connection;
     private Channel channel;
 
     public RabbitConnector(String endpoint, String credUser, String credPass, String virtualHost) {
@@ -30,7 +31,7 @@ public class RabbitConnector  implements QueueConnector{
         factory.setUsername(credUser);
         factory.setPassword(credPass);
         try{
-            Connection connection = factory.newConnection();
+            this.connection = factory.newConnection();
             this.channel = connection.createChannel();
         } catch (Exception ex){
             System.err.println("Error creating rabbit connection");

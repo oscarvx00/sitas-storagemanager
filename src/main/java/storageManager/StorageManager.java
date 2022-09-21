@@ -54,6 +54,7 @@ public class StorageManager implements QueueConnectorCallback {
 
         try{
             rabbitConnector.connect();
+            System.out.println("Connected");
             rabbitConnector.consumeDownloadCompleteQueue(
                     this,
                     System.getenv("RABBITMQ_QUEUE_DOWNLOADCOMPLETED"),
