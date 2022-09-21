@@ -8,6 +8,7 @@ import database.POJOs.SongDownloadPOJO;
 import database.POJOs.StorageNodePOJO;
 import dtos.SongDownload;
 import dtos.StorageNode;
+import org.bson.Document;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -39,8 +40,8 @@ public class MongoManagerIntegrationTest {
 
     @AfterAll
     public static void resetTestDatabase(){
-        configDatabase.getCollection("SongDownload", SongDownloadPOJO.class).drop();
-        configDatabase.getCollection("StorageNode", SongDownloadPOJO.class).drop();
+        configDatabase.getCollection("SongDownload", SongDownloadPOJO.class).deleteMany(new Document());
+        configDatabase.getCollection("StorageNode", SongDownloadPOJO.class).deleteMany(new Document());
     }
 
     private static void initTestDatabase(){

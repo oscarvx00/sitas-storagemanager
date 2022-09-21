@@ -3,6 +3,8 @@ from minio import Minio
 import pika
 import os
 from pymongo import MongoClient
+import time
+import sys
 
 RABBITMQ_ENDPOINT = os.environ['RABBITMQ_ENDPOINT']
 RABBITMQ_USER = os.environ['RABBITMQ_USER']
@@ -93,7 +95,7 @@ database = mongo_client[MONGODB_DATABASE]
 
 #Prepare tests
 
-#initDatabase()
+initDatabase()
 storeInitialSongInternal()
 
 
@@ -105,3 +107,35 @@ channel.basic_publish(
     routing_key='',
     body='{"downloadId" : "7f596b76"}'
 )
+
+
+#Loop until 2 minutes searching for the object uploaded
+
+timeout = time.time() + 60*2
+error = False
+while True:
+    try:
+        res = minio_client_node.stat_object(
+            MINIO_NODE_BUCKET,
+            "testSong.mp3"
+        )
+        error = False
+        break
+    except Exception as e:
+        if e.message == "Object does not exist":
+            pass
+        else:
+            sys.exit("Error checking object node existance: " +  e.message)
+    
+    if time.time() > timeout:
+        error = True
+        break
+
+if error:
+    sys.exit("Test file not found in storage node. Test failed")
+else:
+    print("E2E Test passed")
+    minio_client_node.remove_object(
+        MINIO_NODE_BUCKET,
+        "testSong.mp3"
+    )
