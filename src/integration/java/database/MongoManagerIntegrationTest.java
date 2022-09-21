@@ -50,6 +50,9 @@ public class MongoManagerIntegrationTest {
         MongoClient client = MongoClients.create(System.getenv("MONGODB_ENDPOINT"));
         configDatabase = client.getDatabase(System.getenv("MONGODB_DATABASE")).withCodecRegistry(codecRegistry);
 
+        configDatabase.getCollection("SongDownload", SongDownloadPOJO.class).deleteMany(new Document());
+        configDatabase.getCollection("StorageNode", SongDownloadPOJO.class).deleteMany(new Document());
+
         initSongDownloadData(configDatabase);
         initStorageNodeData(configDatabase);
     }
