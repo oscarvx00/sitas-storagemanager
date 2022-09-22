@@ -108,6 +108,8 @@ channel.basic_publish(
     body='{"downloadId" : "7f596b76"}'
 )
 
+print("Test message sent")
+
 
 #Loop until 2 minutes searching for the object uploaded
 
