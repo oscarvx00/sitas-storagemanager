@@ -20,7 +20,7 @@ COPY 7f596b76.mp3 ./
 COPY entrypoint.sh ./
 RUN chmod +x entrypoint.sh
 
-COPY --from=build /sitas-storagemanager-build/build/libs/*.jar ./
+COPY --from=build /sitas-storagemanager-build/build/libs/*.jar /sitas-storagemanager-e2e-test
 
 ARG MONGODB_ENDPOINT
 ARG MONGODB_DATABASE
