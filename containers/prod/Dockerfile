@@ -1,6 +1,15 @@
-FROM amazoncorretto:17-alpine3.15
+FROM amazoncorretto:17-alpine3.15 AS build
 WORKDIR "sitas-storagemanager-build"
 COPY ./ ./
+
+RUN ./gradlew jar
+
+
+
+FROM amazoncorretto:17-alpine3.15 AS prod
+WORKDIR "sitas-storagemanager-prod"
+
+COPY --from=build /sitas-storagemanager-build/build/libs/*.jar ./
 
 ARG MONGODB_ENDPOINT
 ARG MONGODB_DATABASE

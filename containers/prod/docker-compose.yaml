@@ -1,0 +1,3 @@
+services:
+  sitas-storagemanager:
+    image: oscarvicente/sitas-storagemanager
