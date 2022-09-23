@@ -1,9 +1,3 @@
-#Stage 1 - build
-FROM amazoncorretto:17-alpine3.15 AS build
-WORKDIR "sitas-storagemanager-build"
-COPY ./ ./
-RUN ./gradlew jar
-
 FROM amazoncorretto:17-alpine3.15 AS e2e
 WORKDIR "/sitas-storagemanager-e2e-test"
 
@@ -20,7 +14,7 @@ COPY 7f596b76.mp3 ./
 COPY entrypoint.sh ./
 RUN chmod +x entrypoint.sh
 
-COPY --from=build /sitas-storagemanager-build/build/libs/*.jar /sitas-storagemanager-e2e-test
+COPY *.jar ./
 
 ARG MONGODB_ENDPOINT
 ARG MONGODB_DATABASE
