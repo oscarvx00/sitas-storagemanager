@@ -1,15 +1,9 @@
-FROM amazoncorretto:17-alpine3.15 AS build
-WORKDIR "sitas-storagemanager-build"
+FROM amazoncorretto:17-alpine3.15
+WORKDIR "sitas-storagemanager-prod"
+
 COPY ./ ./
 
 RUN ./gradlew jar
-
-
-
-FROM amazoncorretto:17-alpine3.15 AS prod
-WORKDIR "sitas-storagemanager-prod"
-
-COPY --from=build /sitas-storagemanager-build/build/libs/*.jar ./
 
 ARG MONGODB_ENDPOINT
 ARG MONGODB_DATABASE
@@ -44,4 +38,4 @@ ENV MINIO_NODE_PASS=${MINIO_NODE_PASS}
 ENV MINIO_NODE_BUCKET=${MINIO_NODE_BUCKET}
 
 #ENTRYPOINT ["echo", "$DATABASE_ENDPOINT"]
-ENTRYPOINT ["java", "-jar", "*.jar"]
+CMD ["java", "-jar", "./build/libs/*.jar"]
