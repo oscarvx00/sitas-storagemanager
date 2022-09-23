@@ -5,16 +5,16 @@ RUN apk update
 RUN apk add python3
 RUN apk add py3-pip
 
-COPY requirements.txt ./
+#COPY ./ ./
 RUN pip install -r requirements.txt
 
-COPY e2etest.py ./
-COPY 7f596b76.mp3 ./
+#COPY e2etest.py ./
+#COPY 7f596b76.mp3 ./
 
-COPY entrypoint.sh ./
+#COPY entrypoint.sh ./
 RUN chmod +x entrypoint.sh
 
-COPY *.jar ./
+#COPY *.jar /sitas-storagemanager-e2e-test
 
 ARG MONGODB_ENDPOINT
 ARG MONGODB_DATABASE
