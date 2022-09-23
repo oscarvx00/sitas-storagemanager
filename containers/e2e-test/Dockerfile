@@ -5,7 +5,7 @@ RUN apk update
 RUN apk add python3
 RUN apk add py3-pip
 
-#COPY ./ ./
+COPY ./ ./
 RUN pip install -r requirements.txt
 
 #COPY e2etest.py ./
