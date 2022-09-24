@@ -3,8 +3,6 @@ WORKDIR "sitas-storagemanager-prod"
 
 COPY ./ ./
 
-RUN ./gradlew jar
-
 ARG MONGODB_ENDPOINT
 ARG MONGODB_DATABASE
 ARG MINIO_INTERNAL_ENDPOINT
@@ -37,5 +35,4 @@ ENV MINIO_NODE_USER=${MINIO_NODE_USER}
 ENV MINIO_NODE_PASS=${MINIO_NODE_PASS}
 ENV MINIO_NODE_BUCKET=${MINIO_NODE_BUCKET}
 
-#ENTRYPOINT ["echo", "$DATABASE_ENDPOINT"]
-CMD ["java", "-jar", "./build/libs/*.jar"]
+ENTRYPOINT ["sh", "entrypoint.sh"]
