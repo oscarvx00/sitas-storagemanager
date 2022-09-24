@@ -1,4 +1,4 @@
 services:
-  sitas-storagemanager:
-    image: oscarvicente/sitas-storagemanager
-    container_name: sitas-storagemanager
+  sitas_storagemanager:
+    image: oscarvicente/sitas_storagemanager_prod
+    container_name: sitas_storagemanager
