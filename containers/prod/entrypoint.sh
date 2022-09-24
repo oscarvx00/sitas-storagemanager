@@ -2,5 +2,5 @@
 ./gradlew jar
 cp ./build/libs/*.jar ./
 
-#Run program in background
-java -jar *.jar &
+#Run program
+java -jar *.jar
