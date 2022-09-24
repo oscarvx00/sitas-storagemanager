@@ -1,5 +1,5 @@
-FROM amazoncorretto:17-alpine3.15
-WORKDIR "sitas-storagemanager-prod"
+FROM amazoncorretto:17-alpine3.15 AS prod
+WORKDIR "/sitas-storagemanager-prod"
 
 COPY ./ ./
 
@@ -34,5 +34,7 @@ ENV MINIO_NODE_ENDPOINT=${MINIO_NODE_ENDPOINT}
 ENV MINIO_NODE_USER=${MINIO_NODE_USER}
 ENV MINIO_NODE_PASS=${MINIO_NODE_PASS}
 ENV MINIO_NODE_BUCKET=${MINIO_NODE_BUCKET}
+
+RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["sh", "entrypoint.sh"]

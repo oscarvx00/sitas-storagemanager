@@ -1,3 +1,4 @@
 services:
   sitas-storagemanager:
     image: oscarvicente/sitas-storagemanager
+    container_name: sitas-storagemanager
