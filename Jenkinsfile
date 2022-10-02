@@ -132,7 +132,7 @@ pipeline {
                 RABBITMQ_PASS = credentials("RABBITMQ_PASS")
                 //RABBITMQ_VHOST = ${RABBITMQ_VHOST}
                 RABBITMQ_QUEUE_DOWNLOADCOMPLETED = "sitas-prod-queue-downloadcompleted"
-                MINIO_NODE_ENDPOINT = "minio-oscarvx00.cloud.okteto.net"
+                MINIO_NODE_ENDPOINT = "http://minio-oscarvx00.cloud.okteto.net"
                 MINIO_NODE_USER = credentials("MINIO_INTERNAL_USER")
                 MINIO_NODE_PASS = credentials("MINIO_INTERNAL_PASS")
                 MINIO_NODE_BUCKET = "node-storage-prod"
