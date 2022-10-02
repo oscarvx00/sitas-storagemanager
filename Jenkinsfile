@@ -182,7 +182,7 @@ pipeline {
     }
     post{
         always {
-            cleanWs()
+            //cleanWs()
             sh 'echo end'
         }
     }
