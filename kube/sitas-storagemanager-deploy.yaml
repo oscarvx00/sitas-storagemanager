@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sitas-storagemanager
+  namespace: sitas
+spec:
+  selector:
+    matchLabels:
+      app: sitas-storagemanager
+    template:
+      metadata:
+        labels:
+          app: sitas-storagemanager
+      spec:
+        containers:
+          - name: sitas-storagemanager
+            image: oscarvicente/sitas-storagemanager
+            env:
