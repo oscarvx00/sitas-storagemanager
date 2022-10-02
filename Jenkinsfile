@@ -46,7 +46,7 @@ pipeline {
                 RABBITMQ_PASS = credentials("RABBITMQ_PASS")
                 //RABBITMQ_VHOST = ${RABBITMQ_VHOST}
                 RABBITMQ_QUEUE_DOWNLOADCOMPLETED = "sitas-test-queue-downloadcompleted"
-                MINIO_NODE_ENDPOINT = "oscarvx00.ddns.net:10001"
+                MINIO_NODE_ENDPOINT = "http://oscarvx00.ddns.net:10000"
                 MINIO_NODE_USER = credentials("MINIO_INTERNAL_USER")
                 MINIO_NODE_PASS = credentials("MINIO_INTERNAL_PASS")
                 MINIO_NODE_BUCKET = "node-storage-test"
