@@ -53,3 +53,5 @@ spec:
               value: oaoesvtq
             - name: RABBITMQ_QUEUE_DOWNLOADCOMPLETED
               value: sitas-prod-queue-downloadcompleted
+            - name: RABBITMQ_EXCHANGE_DOWNLOADCOMPLETED
+              value: sitas-prod-exchange-downloadcompleted
