@@ -93,7 +93,7 @@ public class StorageNodePOJO {
                     credPass
             );
         } catch (Exception ex){
-            System.err.println("Error getting storage node " + name);
+            System.err.println("Error getting storage node " + name + ": " + ex.getMessage());
             return null;
         }
     }

@@ -31,7 +31,7 @@ public class MinioInternalStorage implements InternalStorageManager{
             );
             return inputStream;
         } catch (Exception ex){
-            System.err.println("Error getting file from internal storage " + ex.getMessage());
+            System.err.println("Error getting file from internal storage {" + fileId + "}: " + ex.getMessage());
             return null;
         }
     }
@@ -44,7 +44,7 @@ public class MinioInternalStorage implements InternalStorageManager{
             );
             return stat.size();
         } catch (Exception ex) {
-            System.err.println("Error getting object stat " + fileId);
+            System.err.println("Error getting object stat " + fileId + ": " +  ex.getMessage());
             return null;
         }
     }

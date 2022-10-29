@@ -82,7 +82,7 @@ public class StorageManager implements QueueConnectorCallback {
                         System.err.println("Storage node type " + storageNode.getType().toString() + " not found");
                 }
             } catch (Exception ex){
-                System.err.println("Error creating nodeStorage " + storageNode.getName());
+                System.err.println("Error creating nodeStorage " + storageNode.getName() + ": " + ex.getMessage());
             }
         }
 
@@ -109,14 +109,14 @@ public class StorageManager implements QueueConnectorCallback {
 
         for(NodeStorage nodeStorage : nodeStorages){
             try{
-                nodeStorage.storeFile(file,songDownload.getSongName(), fileSize);
+                nodeStorage.storeFile(file,songDownload.getDownloadId(), fileSize);
                 songDownload.setStatus("COMPLETED");
                 songDownload.setStored(true);
                 songDownload.setStorageNodeName(nodeStorage.getStorageNodeName());
                 databaseManager.updateSongDownload(songDownload);
                 return;
             } catch (Exception ex){
-                System.err.println("Error uploading to nodeStorage");
+                System.err.println("Error uploading to nodeStorage: " + ex.getMessage());
             }
         }
     }

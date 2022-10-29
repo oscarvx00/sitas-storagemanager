@@ -1,5 +1,6 @@
 package dtos;
 
 public enum StorageNodeType {
-    MINIO
+    MINIO,
+    INVALID
 }

@@ -171,8 +171,6 @@ public class MongoManagerIntegrationTest {
     public void getAllStorageNodes(){
         List<StorageNode> storageNodes = databaseManager.getAllStorageNodes();
 
-        Assertions.assertEquals(storageNodes.size(), 1);
-
-        Assertions.assertEquals(storageNodes.get(0).getName(), "sn01");
+        Assertions.assertEquals(storageNodes.size(), 2);
     }
 }
