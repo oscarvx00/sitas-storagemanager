@@ -138,6 +138,7 @@ pipeline {
 
                     //Deploy in k8s, server configured
                     dir('kube'){
+                        sh 'kubectl delete deploy -n sitas sitas-storagemanager'
                         sh 'kubectl apply -f sitas-storagemanager-deploy.yaml'
                     }
 
