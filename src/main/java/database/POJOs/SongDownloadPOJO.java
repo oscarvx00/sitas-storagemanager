@@ -13,6 +13,8 @@ public class SongDownloadPOJO {
     private String status;
     private String storageNodeName;
 
+    private String downloadName;
+
 
     public SongDownloadPOJO(){}
 
@@ -72,6 +74,14 @@ public class SongDownloadPOJO {
         this.songName = songName;
     }
 
+    public String getDownloadName() {
+        return downloadName;
+    }
+
+    public void setDownloadName(String downloadName) {
+        this.downloadName = downloadName;
+    }
+
     public SongDownload toSongDownload(){
         return new SongDownload(
                 userId,
@@ -79,7 +89,8 @@ public class SongDownloadPOJO {
                 songName,
                 stored,
                 status,
-                storageNodeName
+                storageNodeName,
+                downloadName
         );
     }
 

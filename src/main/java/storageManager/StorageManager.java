@@ -109,7 +109,7 @@ public class StorageManager implements QueueConnectorCallback {
 
         for(NodeStorage nodeStorage : nodeStorages){
             try{
-                nodeStorage.storeFile(file,songDownload.getSongName(), fileSize);
+                nodeStorage.storeFile(file, downloadCompleted.getDownloadName(), fileSize);
                 songDownload.setStatus("COMPLETED");
                 songDownload.setStored(true);
                 songDownload.setStorageNodeName(nodeStorage.getStorageNodeName());

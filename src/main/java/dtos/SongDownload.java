@@ -9,13 +9,16 @@ public class SongDownload {
     private String status;
     private String storageNodeName;
 
-    public SongDownload(String userId, String downloadId, String songName, boolean stored, String status, String storageNodeName) {
+    private String downloadName;
+
+    public SongDownload(String userId, String downloadId, String songName, boolean stored, String status, String storageNodeName, String downloadName) {
         this.userId = userId;
         this.downloadId = downloadId;
         this.songName = songName;
         this.stored = stored;
         this.status = status;
         this.storageNodeName = storageNodeName;
+        this.downloadName = downloadName;
     }
 
     public String getUserId() {
@@ -64,5 +67,9 @@ public class SongDownload {
 
     public void setStorageNodeName(String storageNodeName) {
         this.storageNodeName = storageNodeName;
+    }
+
+    public String getDownloadName() {
+        return downloadName;
     }
 }

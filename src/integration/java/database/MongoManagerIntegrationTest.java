@@ -68,6 +68,7 @@ public class MongoManagerIntegrationTest {
         pojo1.setSongName("s01");
         pojo1.setStored(false);
         pojo1.setStatus("DOWNLOADING");
+        pojo1.setDownloadName("downloadName01");
         songDownloadPOJOS.add(pojo1);
 
         SongDownloadPOJO pojo2 = new SongDownloadPOJO();
@@ -76,6 +77,7 @@ public class MongoManagerIntegrationTest {
         pojo2.setSongName("s02");
         pojo2.setStored(false);
         pojo2.setStatus("DOWNLOADING");
+        pojo2.setDownloadName("downloadName02");
         songDownloadPOJOS.add(pojo2);
 
         collection.insertMany(songDownloadPOJOS);
@@ -135,7 +137,8 @@ public class MongoManagerIntegrationTest {
                 "sU02",
                 true,
                 "COMPLETED",
-                "sn02"
+                "sn02",
+                "downloadName02"
         );
 
         databaseManager.updateSongDownload(songDownload);
@@ -148,6 +151,7 @@ public class MongoManagerIntegrationTest {
         Assertions.assertTrue(updated.isStored());
         Assertions.assertEquals(updated.getStatus(), "COMPLETED");
         Assertions.assertEquals(updated.getStorageNodeName(), "sn02");
+        Assertions.assertEquals("downloadName02", updated.getDownloadName());
     }
 
     @Test
@@ -158,7 +162,8 @@ public class MongoManagerIntegrationTest {
                 "sU02",
                 true,
                 "COMPLETED",
-                "sn02"
+                "sn02",
+                "downloadName02"
         );
 
         databaseManager.updateSongDownload(songDownload);
