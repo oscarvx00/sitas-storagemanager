@@ -113,6 +113,7 @@ public class StorageManager implements QueueConnectorCallback {
                 songDownload.setStatus("COMPLETED");
                 songDownload.setStored(true);
                 songDownload.setStorageNodeName(nodeStorage.getStorageNodeName());
+                songDownload.setDownloadName(downloadCompleted.getDownloadName());
                 databaseManager.updateSongDownload(songDownload);
                 return;
             } catch (Exception ex){

@@ -72,4 +72,8 @@ public class SongDownload {
     public String getDownloadName() {
         return downloadName;
     }
+
+    public void setDownloadName(String downloadName) {
+        this.downloadName = downloadName;
+    }
 }
