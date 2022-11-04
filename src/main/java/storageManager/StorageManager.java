@@ -90,6 +90,7 @@ public class StorageManager implements QueueConnectorCallback {
 
     @Override
     public void downloadCompletedCallback(DownloadCompleted downloadCompleted) {
+        System.out.println("Received " + downloadCompleted.getDownloadName());
         SongDownload songDownload = databaseManager.getSongDownload(downloadCompleted.getDownloadId());
         if(songDownload == null){
             System.err.println("SongDownload " + downloadCompleted.getDownloadId() + " not found");

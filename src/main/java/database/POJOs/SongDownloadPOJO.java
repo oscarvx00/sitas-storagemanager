@@ -101,5 +101,6 @@ public class SongDownloadPOJO {
         this.status = songDownload.getStatus();
         this.storageNodeName = songDownload.getStorageNodeName();
         this.stored = songDownload.isStored();
+        this.downloadName = songDownload.getDownloadName();
     }
 }
