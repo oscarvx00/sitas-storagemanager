@@ -1,4 +1,3 @@
-
 pipeline {
     agent {label '!master'}
     stages {
@@ -21,8 +20,8 @@ pipeline {
                         docker.build("sitas-storagemanager-buildcontainer").inside{
                             sh './gradlew jar' //We have to set JAVA_HOME because it takes the env from agent container
                             dir('build/libs'){
-                                //stash includes: '*.jar', name: 'jarFile'
-                                //archiveArtifacts artifacts: '*.jar'
+                                stash includes: '*.jar', name: 'jarFile'
+                                archiveArtifacts artifacts: '*.jar'
                             }
                         }
                     }
@@ -41,12 +40,8 @@ pipeline {
                 MINIO_INTERNAL_USER = credentials("MINIO_INTERNAL_USER")
                 MINIO_INTERNAL_PASS = credentials("MINIO_INTERNAL_PASS")
                 MINIO_INTERNAL_BUCKET = "internal-storage-test"
-                //RABBITMQ_ENDPOINT = ${RABBITMQ_ENDPOINT}
-                RABBITMQ_USER = credentials("RABBITMQ_USER")
-                RABBITMQ_PASS = credentials("RABBITMQ_PASS")
-                //RABBITMQ_VHOST = ${RABBITMQ_VHOST}
-                RABBITMQ_QUEUE_DOWNLOADCOMPLETED = "sitas-test-queue-downloadcompleted"
-                RABBITMQ_EXCHANGE_DOWNLOADCOMPLETED = "sitas-test-exchange-downloadcompleted"
+                AZURE_SERVICE_BUS_CONNECTION_STRING = credentials("AZURE_SERVICE_BUS_CONNECTION_STRING_STORAGEMANAGER_TEST")
+                QUEUE_DOWNLOAD_COMPLETED = "download-completed-prod"
                 MINIO_NODE_ENDPOINT = "http://oscarvx00.ddns.net:10000"
                 MINIO_NODE_USER = credentials("MINIO_INTERNAL_USER")
                 MINIO_NODE_PASS = credentials("MINIO_INTERNAL_PASS")
@@ -113,10 +108,8 @@ pipeline {
                         --build-arg MINIO_NODE_BUCKET=${MINIO_NODE_BUCKET} \
                         -t sitas-storagemanager-e2e  .
                     """
-
                     //Run container
                     sh script: "docker run sitas-storagemanager-e2e"
-
                 }
             }
         }*/
@@ -126,8 +119,9 @@ pipeline {
             }
             steps {
                 dir('deploy') {
-                    sh 'cp -r -a ../sources/. ./'
+                    //sh 'cp -r -a ../sources/. ./'
                     sh 'cp -r -a containers/prod/. ./'
+                    unstash 'jarFile'
 
                     sh """
                     docker build -t oscarvicente/sitas-storagemanager-prod  .
@@ -144,12 +138,6 @@ pipeline {
 
                 }
             }
-        }
-    }
-    post{
-        always {
-            //cleanWs()
-            sh 'echo end'
         }
     }
 }

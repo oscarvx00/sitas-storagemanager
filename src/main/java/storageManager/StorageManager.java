@@ -9,20 +9,19 @@ import internalStorage.InternalStorageManager;
 import internalStorage.MinioInternalStorage;
 import nodeStorage.NodeMinio;
 import nodeStorage.NodeStorage;
+import queue.AzureServiceBus;
 import queue.QueueConnector;
-import queue.QueueConnectorCallback;
-import queue.RabbitConnector;
 
 
 import java.io.InputStream;
 import java.util.*;
 
-public class StorageManager implements QueueConnectorCallback {
+public class StorageManager {
 
-    private QueueConnector rabbitConnector;
-    private DatabaseManager databaseManager;
-    private InternalStorageManager internalStorage;
-    private List<NodeStorage> nodeStorages = new ArrayList<>();
+    private QueueConnector queueConnector;
+    private static DatabaseManager databaseManager;
+    private static InternalStorageManager internalStorage;
+    private static List<NodeStorage> nodeStorages = new ArrayList<>();
 
     public StorageManager() {
     }
@@ -44,15 +43,13 @@ public class StorageManager implements QueueConnectorCallback {
                 System.getenv("MINIO_INTERNAL_BUCKET")
         );
 
-        rabbitConnector = new RabbitConnector(
-                System.getenv("RABBITMQ_ENDPOINT"),
-                System.getenv("RABBITMQ_USER"), System.getenv("RABBITMQ_PASS"),
-                System.getenv("RABBITMQ_VHOST")
-        );
+        queueConnector = new AzureServiceBus();
 
         initNodeStorages();
 
-        try{
+        queueConnector.consumeDownloadCompleteQueue( );
+
+        /*try{
             rabbitConnector.connect();
             rabbitConnector.consumeDownloadCompleteQueue(
                     this,
@@ -61,7 +58,8 @@ public class StorageManager implements QueueConnectorCallback {
             );
         } catch (Exception e){
             System.err.println("Rabbit consume error: " + e.getMessage());
-        }
+        }*/
+
     }
 
     private void initNodeStorages(){
@@ -88,8 +86,7 @@ public class StorageManager implements QueueConnectorCallback {
 
     }
 
-    @Override
-    public void downloadCompletedCallback(DownloadCompleted downloadCompleted) {
+    public static void downloadCompletedCallback(DownloadCompleted downloadCompleted) {
         System.out.println("Received " + downloadCompleted.getDownloadName());
         SongDownload songDownload = databaseManager.getSongDownload(downloadCompleted.getDownloadId());
         if(songDownload == null){

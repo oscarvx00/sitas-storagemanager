@@ -37,21 +37,10 @@ spec:
                   key: MINIO_INTERNAL_PASS
             - name: MINIO_INTERNAL_BUCKET
               value: internal-storage-prod
-            - name: RABBITMQ_ENDPOINT
-              value: goose-01.rmq2.cloudamqp.com
-            - name: RABBITMQ_USER
+            - name: AZURE_SERVICE_BUS_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:
                   name: sitas-storagemanager-secret
-                  key: RABBITMQ_USER
-            - name: RABBITMQ_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: sitas-storagemanager-secret
-                  key: RABBITMQ_PASS
-            - name: RABBITMQ_VHOST
-              value: oaoesvtq
-            - name: RABBITMQ_QUEUE_DOWNLOADCOMPLETED
-              value: sitas-prod-queue-downloadcompleted
-            - name: RABBITMQ_EXCHANGE_DOWNLOADCOMPLETED
-              value: sitas-prod-exchange-downloadcompleted
+                  key: AZURE_SERVICE_BUS_CONNECTION_STRING
+            - name: QUEUE_DOWNLOAD_COMPLETED
+              value: download-completed-prod
