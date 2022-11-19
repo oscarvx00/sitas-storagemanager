@@ -10,12 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 public class AzureServiceBus implements QueueConnector {
 
-
-    @Override
-    public void connect() throws Exception {
-
-    }
-
     @Override
     public void consumeDownloadCompleteQueue() {
         ServiceBusProcessorClient processorClient = new ServiceBusClientBuilder()
