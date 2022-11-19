@@ -120,7 +120,7 @@ pipeline {
             }
             steps {
                 dir('deploy') {
-                    //sh 'cp -r -a ../sources/. ./'
+                    sh 'cp -r -a ../sources/. ./'
                     sh 'cp -r -a containers/prod/. ./'
                     unstash 'jarFile'
 
