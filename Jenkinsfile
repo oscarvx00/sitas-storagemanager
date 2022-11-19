@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage ('Checkout') {
             steps {
+                cleanWs()
                 dir('sources'){
                     git url: 'https://github.com/oscarvx00/sitas-storagemanager', branch: 'main'
                 }
@@ -41,7 +42,7 @@ pipeline {
                 MINIO_INTERNAL_PASS = credentials("MINIO_INTERNAL_PASS")
                 MINIO_INTERNAL_BUCKET = "internal-storage-test"
                 AZURE_SERVICE_BUS_CONNECTION_STRING = credentials("AZURE_SERVICE_BUS_CONNECTION_STRING_STORAGEMANAGER_TEST")
-                QUEUE_DOWNLOAD_COMPLETED = "download-completed-prod"
+                QUEUE_DOWNLOAD_COMPLETED = "download-completed-test"
                 MINIO_NODE_ENDPOINT = "http://oscarvx00.ddns.net:10000"
                 MINIO_NODE_USER = credentials("MINIO_INTERNAL_USER")
                 MINIO_NODE_PASS = credentials("MINIO_INTERNAL_PASS")
